@@ -1,0 +1,135 @@
+---
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+## List
+```{r}
+vectorExample <- c(2,6,7)
+listExample <-list(2,6,7)
+
+print(vectorExample)
+print(listExample)
+```
+
+#每個元素值可以是不同type的物件值
+```{r}
+#用vector儲存
+c("2020-03-31T13:40:55Z",
+  "一芳",
+  "2杯",
+  "水果茶")
+
+#用list儲存
+library(lubridate)
+`小明交易1` <- list(
+  ymd_hms("2020-03-31T13:40:55Z"),# date/time
+  "一芳",# character
+  "2",# numeric
+  "水果茶"# charcter
+)
+print(`小明交易1`)
+```
+
+#物件值可以是vector形式，也可以list
+```{r}
+#用vector
+c(
+  c("108學年第1學期","高級會計學","高等統計學") #向量1
+  c("108學年第2學期","食在拉丁美洲") #向量2
+)
+
+#用list
+list(
+  c("108學年第1學期","高級會計學","高等統計學") #向量1
+  c("108學年第2學期","食在拉丁美洲") #向量2
+)
+```
+
+```{r}
+# list含兩個vectors
+`小明108學年課表A` <- list(
+  c("108-1","高級會計學","高等統計學"),
+  c("108-2","食在拉丁美洲")
+)
+print(`小明108學年課表A`)
+```
+
+```{r}
+# list含兩個lists
+`小明108學年課表B` <- list(
+  list("108-1","高級會計學","高等統計學"),
+  list("108-2","食在拉丁美洲")
+)
+print(`小明108學年課表B`)
+```
+
+```{r}
+# list含兩個lists, 子層list又各含兩個vectors
+`小明108學年課表C` <- list(
+  list(
+    c("108-1"), # 可只寫 "108-1"
+    c("高級會計學","高等統計學")
+       ),
+  list(
+    c("108-2"),
+    c("食在拉丁美洲")
+  )
+)
+print(`小明108學年課表C`)
+```
+
+#物件值可以取名
+```{r}
+# list含兩個lists, 子層list又各含兩個vectors
+`小明108學年課表D` <- list(
+  `上學期`=list(
+    Semester=c("108-1"), # 可只寫 "108-1"
+    Courses=c("高級會計學","高等統計學")
+       ),
+  list(
+    Semester=c("108-2"),
+    Courses=c("食在拉丁美洲")
+  )
+)
+print(`小明108學年課表D`)
+```
+
+#Gitter Commit
+```{r}
+authorValues <- 
+  list( 
+    name="Martin老師", 
+    email="mtlin@gm.ntpu.edu.tw", time="2020-03-25T07:17:40Z"
+  )
+committerValues <- 
+  list(
+    name="emilyluckey", 
+    email="emily007@gmail.com", time="2020-03-26T08:18:40Z"
+  )
+
+commit <- list(
+  author=authorValues,
+  commmitter=committerValues,
+  message="update"
+)
+
+print(commit)
+```
+
+```{r}
+library(jsonlite) # 不少同學這行會有Error，還記得如何排除嗎？
+toJSON(commit)
+```
+
+```{r}
+save(`小明108學年課表D`,commit,file="0401data.Rda")
+```
+
+```{r}
+load("0401data.Rda")
+```
+
