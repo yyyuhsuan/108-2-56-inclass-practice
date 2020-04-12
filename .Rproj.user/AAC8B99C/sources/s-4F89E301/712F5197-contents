@@ -1,0 +1,257 @@
+---
+---
+##選取元素
+##選「一個元素」
+##用位置選[[.]]
+```{r}
+vectorExample <- c("小明","小英","大雄")
+
+# 有多少位置可選：
+length(vectorExample)
+```
+
+```{r}
+vectorExample[[1]]
+vectorExample[[3]]
+```
+
+```{r}
+listExample <- 
+  list(
+    student="小明",
+    `學期`=list(
+      `108-1`=list(
+        list(
+          name="個體經濟學",
+          teacher="Alice",
+          grade=85
+        )
+      ),
+      `108-2`=list(
+        list(
+          name="總體經濟學",
+          teacher="Mark",
+          grade=78
+        )
+      )
+    )
+  )
+# 有多少位置可選：
+length(listExample)
+```
+```{r}
+listExample[[1]]
+if(!require("readr")){
+  install.packages("readr")
+}
+sink("report.txt")
+Sys.getenv()
+Sys.getlocale()
+readr::locale()
+sessionInfo()
+sink()
+print(file.path(getwd(),"report.txt"))
+listExample[[2]]
+```
+
+```{r}
+library(jsonlite)
+fromJSON("https://data.tainan.gov.tw/dataset/4cd9345a-04bf-4328-a97d-314ff78b4763/resource/afc025fc-1ef4-447c-b785-a680391d0ca1/download/tnsport2.json", simplifyDataFrame = F) -> tainanSportsMap
+
+length(tainanSportsMap)
+```
+
+```{r}
+tainanSportsMap[[1]]
+tainanSportsMap[[1076]]
+```
+
+##用名字選$.
+```{r}
+# 有多少名字可選：
+names(listExample)
+
+listExample$student
+listExample$`學期` # 特殊命名依然要用反頓點呼叫
+```
+
+```{r}
+str(listExample)
+```
+
+```{r}
+str(listExample$`學期`)
+```
+
+其實也可以用[["名字"]]來選，只是名字要以字串「值」的方式來寫，也就是要用引號一對"…", 不用反頓點一對`…`。
+```{r}
+listExample[["student"]]
+listExample$student
+
+listExample[["學期"]] # 小心不是反頓點喔。
+listExample$`學期`
+```
+
+```{r}
+student <- "student"
+listExample[[student]]
+```
+
+新北市各區衛生所之門診時間及疫苗種類彙整表
+```{r}
+fromJSON("http://data.ntpc.gov.tw/api/v1/rest/datastore/382000000A-000157-002",
+         simplifyDataFrame = F) -> newTaipeiCityVaccine
+```
+
+```{r}
+str(newTaipeiCityVaccine)
+length(newTaipeiCityVaccine)
+names(newTaipeiCityVaccine)
+```
+
+```{r}
+str(newTaipeiCityVaccine[[1]] ,max.level = 1)
+str(newTaipeiCityVaccine$success ,max.level = 1)
+str(newTaipeiCityVaccine[["success"]] ,max.level = 1)
+
+str(newTaipeiCityVaccine[[2]] ,max.level = 1)
+str(newTaipeiCityVaccine$result ,max.level = 1)
+str(newTaipeiCityVaccine[["result"]] ,max.level = 1)
+```
+
+## 選「多個元素」
+## 用位置選[c(...)]
+```{r}
+vectorExample
+vectorExample[c(1,3)]
+vectorExample[c(3,2,1)] # 產生重新排列效果
+```
+
+```{r}
+# 顯示到第一層
+str(listExample, max.level=1)
+
+str(listExample[c(1,2)], max.level=1)
+str(listExample[c(2,1)], max.level=1)
+```
+
+任選數筆tainanSportsMap的運動地點
+```{r}
+str(tainanSportsMap, max.level=1)
+
+str(tainanSportsMap[c(1,382,1076)], max.level=1)
+```
+
+##用名字選[c("name1","name2",...)]
+```{r}
+# 顯示到第一層
+str(listExample, max.level=1)
+
+listExample[["學期"]]
+listExample[c("student","學期")]
+listExample[c("學期","student")]
+```
+
+臺北市夜市資料（來自臺北市食材登錄平台食材來源資訊）
+```{r}
+fromJSON("https://www.dropbox.com/s/qnm9bnz7vccrvcz/taipeiNightMarkets.json?dl=1", simplifyDataFrame = F) -> taipeiNightMarkets
+```
+
+```{r}
+taipeiNightMarkets[c("寧夏觀光夜市","景美夜市")]
+```
+
+##用「要/不要」邏輯向量選[c(T,T,F,...)]
+```{r}
+vectorExample
+vectorExample[c(T,T,F)] # 要，要，不要
+```
+
+```{r}
+str(listExample)
+str(listExample[c(F,T)]) # 不要，要
+str(listExample[c("學期")])
+str(listExample[c(T,T)]) # 要，要
+```
+
+用「要/不要」邏輯向量自taipeiNightMarkets選出 寧夏觀光夜市，西昌街觀光夜市，大龍街夜市， 雙城街夜市
+```{r}
+names(taipeiNightMarkets)
+c(T,F,F,
+  F,T,F,
+  F,F,F,
+  T,F,F,
+  F,T) ->selectedmarkets
+taipeiNightMarkets[selectedmarkets]
+
+str(taipeiNightMarkets[c(T,F,F,
+                         F,T,F,
+                         F,F,F,
+                         T,F,F,
+                         F,T)])
+```
+
+```{r}
+selectedmarkets <- rep(F,14) #repeat F by 14 times
+print(selectedmarkets)
+selectedmarkets[c(1,5,10,14)] <- T
+print(selectedmarkets)
+
+```
+
+```{r}
+str(taipeiNightMarkets[selectedmarkets],max.level = 1)
+```
+
+
+##一個中括號與兩個中括號的差異
+```{r}
+str(listExample,max.level=3)
+```
+
+以下兩個表面都是選取“學期”
+```{r}
+get1 <- listExample[["學期"]]
+get2 <- listExample["學期"]
+```
+[[]]: 拿出某個物件值
+```{r}
+get1 # 學期拿出來，有3個元素的list
+str(get1,max.level = 1)
+```
+[]: 留下某個物件值
+```{r}
+get2 # listExample 只留下 學期元素，是個只有一個元素的list
+str(get2, max.level = 2)
+```
+
+##連鎖選取
+```{r}
+numVector <- c(2,3,6,-1,4,2,6)
+select1 <- numVector[c(1,4)]; select1
+select2 <- select1[[1]]; select2
+
+# 相當於
+numVector[c(1,4)][[1]]
+```
+
+```{r}
+select1 <- numVector[c(T,T,F,T,F,F,T)]; select1
+select2 <- select1[c(1,4)]; select2
+
+# 相當於
+numVector[c(T,T,F,T,F,F,T)][c(1,4)]
+```
+
+```{r}
+majors <- c("經濟學系","經濟學系","社會學系","社工系","經濟學系")
+names <- c("小英", "小美", "大雄","阿華", "阿尼")
+gender <- c("F","F","M","F","M")
+
+econOnly <- majors[c(1,2,5)]
+names[econOnly]
+gender[econOnly]
+econFemaleOnly <-gender[econOnly][c(T,T,F)]
+names[econOnly][econFemaleOnly]
+```
+

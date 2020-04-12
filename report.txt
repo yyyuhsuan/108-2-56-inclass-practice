@@ -1,0 +1,140 @@
+ALLUSERSPROFILE    C:\ProgramData
+APPDATA            C:\Users\user\AppData\Roaming
+CLICOLOR_FORCE     1
+CommonProgramFiles
+                   C:\Program Files\Common Files
+CommonProgramFiles(x86)
+                   C:\Program Files (x86)\Common Files
+CommonProgramW6432
+                   C:\Program Files\Common Files
+COMPUTERNAME       MSI
+ComSpec            C:\Windows\system32\cmd.exe
+configsetroot      C:\Windows\ConfigSetRoot
+DISPLAY            :0
+DriverData         C:\Windows\System32\Drivers\DriverData
+GFORTRAN_STDERR_UNIT
+                   -1
+GFORTRAN_STDOUT_UNIT
+                   -1
+HOME               C:\Users\user\Documents
+HOMEDRIVE          C:
+HOMEPATH           \Users\user
+LOCALAPPDATA       C:\Users\user\AppData\Local
+LOGONSERVER        \\MSI
+MPLENGINE          tkAgg
+MSYS2_ENV_CONV_EXCL
+                   R_ARCH
+NUMBER_OF_PROCESSORS
+                   12
+OneDrive           C:\Users\user\OneDrive
+OneDriveConsumer   C:\Users\user\OneDrive
+OS                 Windows_NT
+PATH               C:\Program
+                   Files\R\R-3.6.3\bin\x64;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program
+                   Files (x86)\NVIDIA
+                   Corporation\PhysX\Common;C:\Program
+                   Files\Intel\WiFi\bin\;C:\Program
+                   Files\Common
+                   Files\Intel\WirelessCommon\;C:\Program
+                   Files\NVIDIA Corporation\NVIDIA
+                   NvDLISR;C:\Users\user\AppData\Local\Microsoft\WindowsApps;C:\Program
+                   Files\Bandizip\;C:\Users\user\AppData\Local\GitHubDesktop\bin
+PATHEXT            .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+PROCESSOR_ARCHITECTURE
+                   AMD64
+PROCESSOR_IDENTIFIER
+                   Intel64 Family 6 Model 166 Stepping
+                   0, GenuineIntel
+PROCESSOR_LEVEL    6
+PROCESSOR_REVISION
+                   a600
+ProgramData        C:\ProgramData
+ProgramFiles       C:\Program Files
+ProgramFiles(x86)
+                   C:\Program Files (x86)
+ProgramW6432       C:\Program Files
+PSModulePath       C:\Program
+                   Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+PUBLIC             C:\Users\Public
+QT_D3DCREATE_MULTITHREADED
+                   1
+R_ARCH             /x64
+R_COMPILED_BY      gcc 4.9.3
+R_DOC_DIR          C:/PROGRA~1/R/R-36~1.3/doc
+R_HOME             C:/PROGRA~1/R/R-36~1.3
+R_LIBS_USER        C:/Users/user/Documents/R/win-library/3.6
+R_USER             C:/Users/user/Documents
+RMARKDOWN_MATHJAX_PATH
+                   C:/Program
+                   Files/RStudio/resources/mathjax-26
+RS_LOCAL_PEER      \\.\pipe\43937-rsession
+RS_RPOSTBACK_PATH
+                   C:/Program
+                   Files/RStudio/bin/rpostback
+RS_SHARED_SECRET   63341846741
+RSTUDIO            1
+RSTUDIO_CONSOLE_COLOR
+                   256
+RSTUDIO_CONSOLE_WIDTH
+                   80
+RSTUDIO_MSYS_SSH   C:/Program
+                   Files/RStudio/bin/msys-ssh-1000-18
+RSTUDIO_PANDOC     C:/Program Files/RStudio/bin/pandoc
+RSTUDIO_SESSION_PORT
+                   43937
+RSTUDIO_USER_IDENTITY
+                   user
+RSTUDIO_WINUTILS   C:/Program Files/RStudio/bin/winutils
+SESSIONNAME        Console
+SystemDrive        C:
+SystemRoot         C:\Windows
+TEMP               C:\Users\user\AppData\Local\Temp
+TERM               xterm-256color
+TMP                C:\Users\user\AppData\Local\Temp
+USERDOMAIN         MSI
+USERDOMAIN_ROAMINGPROFILE
+                   MSI
+USERNAME           user
+USERPROFILE        C:\Users\user
+windir             C:\Windows
+[1] "LC_COLLATE=Chinese (Traditional)_Taiwan.950;LC_CTYPE=Chinese (Traditional)_Taiwan.950;LC_MONETARY=Chinese (Traditional)_Taiwan.950;LC_NUMERIC=C;LC_TIME=Chinese (Traditional)_Taiwan.950"
+<locale>
+Numbers:  123,456.78
+Formats:  %AD / %AT
+Timezone: UTC
+Encoding: UTF-8
+<date_names>
+Days:   Sunday (Sun), Monday (Mon), Tuesday (Tue), Wednesday
+        (Wed), Thursday (Thu), Friday (Fri), Saturday
+        (Sat)
+Months: January (Jan), February (Feb), March (Mar), April (Apr),
+        May (May), June (Jun), July (Jul), August (Aug),
+        September (Sep), October (Oct), November (Nov),
+        December (Dec)
+AM/PM:  AM/PM
+R version 3.6.3 (2020-02-29)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 18363)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=Chinese (Traditional)_Taiwan.950 
+[2] LC_CTYPE=Chinese (Traditional)_Taiwan.950   
+[3] LC_MONETARY=Chinese (Traditional)_Taiwan.950
+[4] LC_NUMERIC=C                                
+[5] LC_TIME=Chinese (Traditional)_Taiwan.950    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods  
+[7] base     
+
+other attached packages:
+[1] readr_1.3.1
+
+loaded via a namespace (and not attached):
+ [1] compiler_3.6.3  R6_2.4.1        hms_0.5.3      
+ [4] tools_3.6.3     pillar_1.4.3    tibble_2.1.3   
+ [7] yaml_2.2.1      Rcpp_1.0.3      crayon_1.3.4   
+[10] vctrs_0.2.4     knitr_1.28      xfun_0.12      
+[13] pkgconfig_2.0.3 rlang_0.4.5    
