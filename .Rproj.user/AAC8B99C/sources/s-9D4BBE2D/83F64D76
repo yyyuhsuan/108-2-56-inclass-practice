@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1587303526561.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "83F64D76",
+    "lastKnownWriteTime" : 7017839008414856559,
+    "last_content_update" : 1587303526561,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "id" : "e2863b3f2798414d950c1d912406c3b2",
+        "name" : "newTaipeiYouBike",
+        "title" : "newTaipeiYouBike"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "object_explorer"
+}
