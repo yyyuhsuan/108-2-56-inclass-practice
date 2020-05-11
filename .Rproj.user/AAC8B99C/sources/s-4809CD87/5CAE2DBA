@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1589205117383.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "5CAE2DBA",
+    "lastKnownWriteTime" : 1589215370,
+    "last_content_update" : 1589215370150,
+    "path" : "C:/Users/user/Desktop/108-2-56-inclass-practice/20200506~.Rmd",
+    "project_path" : "20200506~.Rmd",
+    "properties" : {
+        "cursorPosition" : "336,0",
+        "last_setup_crc32" : "4809CD87bb338d19",
+        "scrollLine" : "297",
+        "tempName" : "Untitled2"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
