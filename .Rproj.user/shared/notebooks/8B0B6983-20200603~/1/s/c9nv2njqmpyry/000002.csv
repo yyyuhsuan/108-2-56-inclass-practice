@@ -1,0 +1,8 @@
+"0","learning_topics <- "
+"0","  list("
+"0","    subject=""函數"","
+"0","    date=lubridate::ymd(""2020-06-03""),"
+"0","    functionsCreated=list("
+"0","      demand=demand_return # 等號右邊是呼叫demand_return的定義值，也就是function(...){...}值定義本身。"
+"0","    )"
+"0","  )"

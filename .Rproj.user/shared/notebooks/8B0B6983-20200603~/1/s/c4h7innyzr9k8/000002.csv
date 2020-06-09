@@ -1,0 +1,7 @@
+"0","library(httr)"
+"0","library(magrittr)"
+"0","GET(""https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/NewTaipei/916?$top=30&$format=JSON"") %>%"
+"0","  content -> estimatedArrivalTime_916"
+"0",""
+"0","GET(""https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/NewTaipei/939?$top=30&$format=JSON"") %>%"
+"0","  content -> route_916"

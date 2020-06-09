@@ -1,0 +1,4 @@
+"0","myDemand2 <- function(p, intercept=10, slope=-5){"
+"0","  q_d <- intercept + slope*p"
+"0","  return(q_d)"
+"0","}"
