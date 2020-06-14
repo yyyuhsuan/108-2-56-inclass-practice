@@ -1,0 +1,5 @@
+"0","if(!exists(""weather_next36hours"")){"
+"0","    jsonlite::fromJSON(""https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-001?Authorization=rdec-key-123-45678-011121314&format=JSON"") ->"
+"0","    weather_next36hours"
+"0","  SOAR::Store(weather_next36hours) # 存在.R_cache environment中"
+"0","}"

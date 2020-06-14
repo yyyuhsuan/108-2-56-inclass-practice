@@ -1,0 +1,431 @@
+---
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+###5.3 Conditional Execution
+*用在「某個條件符合才執行」的狀況。
+```{r}
+if(condition){
+  Body for TRUE
+}
+#condition: 它是個「是/否」問句。 (使用條件判斷來產生答案T/F，是個logical。)
+```
+
+*判斷學號輸入正確與否
+```{r}
+library(stringr)
+# 先執行此行輸入學號
+readline(prompt = "請輸入你的學號") -> studentId 
+
+# 之後才執行以下程式
+if(
+  str_detect(studentId,'^[43](1[01][0-9]|9[0-9])[0-9]{5}$',negate=T) # condition: 是否輸入學號正確？
+) {
+  warning("你所輸入的學號不正確")
+}
+```
+
+*確認使用者有安裝需要套件
+```{r}
+if(!require(lubridate)){ # condition: 是否「沒安裝lubridate」？
+  install.packages("lubridate")
+}
+lubridate::ymd_hms("2020-07-01 13:00:00 GMT")
+```
+
+*在4.6.5 前後鄰居描述Look around一節，我們可以把它形成一個
+convert_TaiwanDate2WesternDate()函數：
+```{r}
+convert_TaiwanDate2WesternDate <- function(twDate){
+  library(stringr)
+  regex_pattern <-
+    "(?<=民國)[0-9]+(?=年)"
+  
+  # 取出民國年，計算西元年
+  year <- 
+    str_extract(
+      twDate,
+      regex_pattern)
+  westernYear <- as.integer(year)+1911
+  
+  # 替換民國xx年的xx成西元年數字
+  str_replace(
+    twDate,
+    regex_pattern,  # 要換掉的文字
+    as.character(westernYear) # 要替換的內容
+  ) -> twDate_reformat
+  
+  lubridate::ymd(twDate_reformat) -> westernDate
+  return(westernDate)
+}
+
+twDate <-  c("民國108年12月5日","民國98年10月5日")
+convert_TaiwanDate2WesternDate(twDate)
+```
+這函數需要stringr及lubridate
+```{r}
+convert_TaiwanDate2WesternDate <- function(twDate){
+  
+  if(!require("stringr")){
+    install.packages("stringr")
+  }
+  if(!require("lubridate")){
+    install.packages("lubridate")
+  }
+  
+  library(stringr)
+  regex_pattern <-
+    "(?<=民國)[0-9]+(?=年)"
+  
+  # 取出民國年，計算西元年
+  year <- 
+    str_extract(
+      twDate,
+      regex_pattern)
+  westernYear <- as.integer(year)+1911
+  
+  # 替換民國xx年的xx成西元年數字
+  str_replace(
+    twDate,
+    regex_pattern,  # 要換掉的文字
+    as.character(westernYear) # 要替換的內容
+  ) -> twDate_reformat
+  
+  lubridate::ymd(twDate_reformat) -> westernDate
+  return(westernDate)
+}
+```
+
+*寫一個check_package(pkgName)函數，它會檢查使用者是否有安裝pkgName值（class character，length=1）的套件，如果沒有就安裝
+```{r}
+install.packages(clipr)
+library(clipr)
+# 測試
+check_package("clipr")
+check_package("SOAR")
+```
+*check_package()一次只能偵測一個套件是否有安裝。寫一個check_packages(pkgNames) (packages是複數)，它以給pkgNames input, pkgNames為class character, length任意。
+```{r}
+# 測試
+check_packages(c("clipr","SOAR"))
+```
+##不重覆下載
+```{r}
+# 檢視步驟耗時elapse time
+system.time(
+  jsonlite::fromJSON("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-001?Authorization=rdec-key-123-45678-011121314&format=JSON") ->
+  weather_next36hours
+)
+```
+
+```{r}
+if(!exists("weather_next36hours")){
+    jsonlite::fromJSON("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-001?Authorization=rdec-key-123-45678-011121314&format=JSON") ->
+    weather_next36hours
+  SOAR::Store(weather_next36hours) # 存在.R_cache environment中
+}
+```
+*SOAR::Store(weather_next36hours)會創造一個.R_Cache環境並把weather_next36hours移到那裡放
+```{r}
+askSilly_weather <- function(locationInput,dateInput){
+  jsonlite::fromJSON("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-001?Authorization=rdec-key-123-45678-011121314&format=JSON") ->
+  weather_next36hours
+  
+  (weather_next36hours$cwbopendata$dataset$location$locationName == locationInput) -> pick_location
+  
+  weather_next36hours$cwbopendata$dataset$location$weatherElement[pick_location][[1]] -> weatherAtLocation
+  (weatherAtLocation$elementName=="MaxT") ->
+    pick_MaxT
+  (weatherAtLocation$elementName=="MinT") ->
+    pick_MinT
+  weatherAtLocation$time[pick_MaxT][[1]]$parameter$parameterName[[1]] -> maxT
+  weatherAtLocation$time[pick_MinT][[1]]$parameter$parameterName[[1]] -> minT
+  
+  glue::glue("{locationInput} {dateInput} 氣溫，最高{maxT}度，最低{minT}度。")
+}
+```
+
+```{r}
+askSilly_weather2 <- function(locationInput,dateInput){
+  if(!exists("weather_next36hours")){
+      jsonlite::fromJSON("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-001?Authorization=rdec-key-123-45678-011121314&format=JSON") ->
+      weather_next36hours
+    SOAR::Store(weather_next36hours) # 存在.R_cache environment中
+  }  
+  (weather_next36hours$cwbopendata$dataset$location$locationName == locationInput) -> pick_location
+  
+  weather_next36hours$cwbopendata$dataset$location$weatherElement[pick_location][[1]] -> weatherAtLocation
+  (weatherAtLocation$elementName=="MaxT") ->
+    pick_MaxT
+  (weatherAtLocation$elementName=="MinT") ->
+    pick_MinT
+  weatherAtLocation$time[pick_MaxT][[1]]$parameter$parameterName[[1]] -> maxT
+  weatherAtLocation$time[pick_MinT][[1]]$parameter$parameterName[[1]] -> minT
+  
+  glue::glue("{locationInput} {dateInput} 氣溫，最高{maxT}度，最低{minT}度。")
+}
+```
+
+```{r}
+system.time(
+  askSilly_weather("新北市",today())
+)
+system.time(
+  askSilly_weather("臺北市",today())
+)
+
+askSilly_weather("新北市",today())
+askSilly_weather("臺北市",today())
+```
+
+```{r}
+SOAR::Remove(weather_next36hours)
+system.time(
+  askSilly_weather2("新北市",today())
+)
+system.time(
+  askSilly_weather2("臺北市",today())
+)
+
+askSilly_weather2("新北市",today())
+askSilly_weather2("臺北市",today())
+```
+
+###5.3.2 if else
+```{r}
+if(condition){
+  body for TRUE condition
+} else {
+  body for FALSE condition
+}
+```
+Condition設計：n「是/否」為偶數？
+```{r}
+(n %% 2)==1 # 表示「奇數」; 或...
+
+as.logical(n %% 2) # 只有0會變F，其他數值都是T
+```
+
+*if…else…組合：
+```{r}
+n <- 54
+if(as.logical(n %% 2)){
+  fvalue <- -(n+1)/2
+} else {
+  fvalue <- n/2
+}
+```
+
+```{r}
+myFun <- function(n){
+  if(as.logical(n %% 2)){
+    fvalue <- -(n+1)/2
+  } else {
+    fvalue <- n/2
+  }
+  return(fvalue)
+}
+
+myFun(54)
+myFun(33)
+```
+
+*交卷提早時間
+```{r}
+jsonlite::fromJSON("https://www.dropbox.com/s/d14j5hp3i5ps657/examSubmissionTimes.json?dl=1") -> examSubmissionTime
+
+
+head(examSubmissionTime$section)
+head(examSubmissionTime$time)
+```
+56節：deadline 下午3點
+
+78節（即非56節）：deadline 下午5點
+
+給定第i位學生，我們怎麼計算他/她的交卷提早時間？
+
+#沒有分歧情境
+只有一個交卷時間：
+```{r}
+i<-1
+student_i_section <- examSubmissionTime$section[[i]]
+student_i_time <- examSubmissionTime$time[[i]]
+
+deadline <- lubridate::ymd_hms("2020-05-27 15:00:00", tz="Asia/Taipei") # 
+
+howEarly <- deadline - lubridate::ymd_hms(
+  student_i_time, tz="Asia/Taipei") 
+print(howEarly)
+```
+
+#有分歧情境
+有兩個交卷時間：
+```{r}
+student_i_section <- examSubmissionTime$section[[i]]
+student_i_time <- examSubmissionTime$time[[i]]
+```
+使用if…else控制情境分歧
+Condition設計：
+```{r}
+student_i_section=="56"
+```
+
+if…else…組合：
+```{r}
+i<-1
+student_i_section <- examSubmissionTime$section[[i]]
+student_i_time <- examSubmissionTime$time[[i]]
+
+if(student_i_section=="56"){
+  deadline <- lubridate::ymd_hms("2020-05-27 15:00:00", tz="Asia/Taipei")
+} else {
+  deadline <- lubridate::ymd_hms("2020-05-27 17:00:00", tz="Asia/Taipei")
+}
+
+howEarly <- deadline - lubridate::ymd_hms(student_i_time, tz="Asia/Taipei")
+print(howEarly)
+```
+
+*我們可以使用function＋map算出每位同學提早時間：
+```{r}
+compute_howEarly <- function(student_i_section, student_i_time){
+  # student_i_section <- examSubmissionTime$section[[i]]
+  # student_i_time <- examSubmissionTime$time[[i]]
+  
+  if(student_i_section=="56"){
+    deadline <- lubridate::ymd_hms("2020-05-27 15:00:00", tz="Asia/Taipei")
+  } else {
+    deadline <- lubridate::ymd_hms("2020-05-27 17:00:00", tz="Asia/Taipei")
+  }
+  
+  howEarly <- deadline - lubridate::ymd_hms(student_i_time, tz="Asia/Taipei")
+  # print(howEarly)
+  
+  return(howEarly)
+}
+```
+
+```{r}
+compute_howEarly(examSubmissionTime$section[[1]],examSubmissionTime$time[[1]])
+compute_howEarly(examSubmissionTime$section[[2]],examSubmissionTime$time[[2]])
+compute_howEarly(examSubmissionTime$section[[3]],examSubmissionTime$time[[3]])
+```
+
+```{r}
+studentSequence <- 1:length(examSubmissionTime$section)
+
+map(studentSequence,
+    ~compute_howEarly(
+      examSubmissionTime$section[[.x]],
+      examSubmissionTime$time[[.x]])
+    ) -> list_howEarly
+```
+
+78節和56節交卷提早時間比較
+```{r}
+library(magrittr)
+list_howEarly %>%
+  unlist() -> examSubmissionTime$howEarly
+
+pick_56 <- examSubmissionTime$section=="56"
+mean(examSubmissionTime$howEarly[pick_56])
+median(examSubmissionTime$howEarly[pick_56])
+
+pick_78 <- examSubmissionTime$section=="78"
+mean(examSubmissionTime$howEarly[pick_78])
+median(examSubmissionTime$howEarly[pick_78])
+```
+
+###5.3.3 if…else if… else
+有時流程需要的分歧不只兩種情境，這時可以使用：
+```{r}
+if(condition A){
+  body for A 
+} else if(condition B){
+  body for B
+} else if(condition C){
+  body for C
+} else {
+  body for none of the above
+}
+```
+依需要可以不斷增加else if(...){....}的部份在中間。
+
+else if 或 else前面一定要保有前一段情境的結束}。
+
+
+成績等級：
+
+>=90: 優 # condition A
+
+80-89：良 # condition B
+
+70-79：尚可 # condition C
+
+70以下：待加強 # else
+
+```{r}
+readline("請輸入你的成績（整數）： ") -> grade # 單獨執行
+```
+
+```{r}
+if(grade >=90){
+  print("優")
+} else if(grade>=80 & grade<=89){
+  print("良")
+} else if(grade>=70 & grade<=79){
+  print("尚可")
+} else {
+  print("待加強")
+}
+```
+*各情境一定要互斥，即不可以有兩個情境有可能同時為TRUE，如果發生多個情境吻合會以第一個結果的body來執行。
+```{r}
+grade <- 80
+if(grade >=90){
+  print("優")
+} else if(grade>=75 & grade<=89){
+  print("良")
+} else if(grade>=70 & grade<=85){
+  print("尚可")
+} else {
+  print("待加強")
+}
+```
+
+```{r}
+grade <- 80
+if(grade >=90){
+  print("優")
+} else if(grade>=70 & grade<=85){
+  print("尚可")
+} else if(grade>=75 & grade<=89){
+  print("良")
+} else {
+  print("待加強")
+}
+```
+
