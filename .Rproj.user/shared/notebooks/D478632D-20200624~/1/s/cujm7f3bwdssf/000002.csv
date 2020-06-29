@@ -1,0 +1,7 @@
+"0","# 前置作業，接for iteration"
+"0","output <- vector(""list"", length=4)"
+"0","for(.x in 1:4){"
+"0","  get_courses(academicYears[[.x]], "
+"0","                allGrades[[.x]], "
+"0","                courseStructure) -> output[[.x]]"
+"0","}"
